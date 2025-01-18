@@ -1,9 +1,15 @@
 import { render, screen } from "@testing-library/react";
-import { MyComponent } from "../../src/myFunc";
+import App from "../../src/App";
 import "@testing-library/jest-dom";
 
 test("「Hello Test」が描画されている", () => {
-  render(<MyComponent />);
+  render(<App />);
   screen.debug();
-  expect(screen.getByText("Hello Test")).toBeInTheDocument();
+  const email = screen.getByLabelText("email");
+  const password = screen.getByLabelText("password");
+  const button = screen.getByRole("login");
+
+  expect(email).toBeInTheDocument();
+  expect(password).toBeInTheDocument();
+  expect(button).toBeInTheDocument();
 });
