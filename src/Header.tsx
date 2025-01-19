@@ -28,7 +28,7 @@ const Header = () => {
       ) : null}
       <Link
         className="justify-end text-blue-500 hover:underline right-0 "
-        to="account"
+        to="/profile"
       >
         マイアカウント
       </Link>

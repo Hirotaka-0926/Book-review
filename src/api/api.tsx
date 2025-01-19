@@ -1,5 +1,6 @@
 const baseUrl = process.env.VITE_API_URL;
 import { User } from "../type/type";
+import { Book } from "../type/type";
 
 export const signUp = async (data: User) => {
   const header = {
@@ -23,8 +24,6 @@ export const logIn = async (email: string, password: string) => {
 export const uploadIcon = async (icon: File, token: string) => {
   const formData = new FormData();
   formData.append("icon", icon);
-  const testToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzczNTE2MDYsImlhdCI6MTczNzI2NTIwNiwic3ViIjoiNTQ1NDY1NTczNTQiLCJ1c2VyX2lkIjoiZGQyNmM1ZmYtMTFkMC00M2Q5LThkMzYtZTk4ZTRmZTUyNDQ3In0.Lf4Rvri6rMdX5l7JbGtk7WYgRJyRd1wOSzofpdO118g";
   const option = {
     method: "POST",
     headers: {
@@ -33,5 +32,10 @@ export const uploadIcon = async (icon: File, token: string) => {
     body: formData,
   };
   const response = await fetch(`${baseUrl}/uploads`, option);
+  return response;
+};
+
+export const getBooks = async (count: number) => {
+  const response = await fetch(`${baseUrl}/public/books?offset=${count}`);
   return response;
 };

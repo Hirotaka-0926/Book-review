@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { Link, Navigate } from "react-router-dom";
 import { logIn } from "../api/api";
 import { useSelector, useDispatch } from "react-redux";
-import { Cookies } from "react-cookie";
+
 import { signIn } from "../slice";
 import Header from "../Header";
 
@@ -19,7 +19,7 @@ const LogIn = () => {
   const auth = useSelector(
     (state: { auth: { isSignIn: boolean } }) => state.auth.isSignIn
   );
-  const [cookies, setToken] = useCookies();
+  const [, setToken] = useCookies();
   const dispatch = useDispatch();
 
   const isVaild: SubmitHandler<LoginData> = async (data: LoginData) => {
