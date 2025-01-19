@@ -28,7 +28,7 @@ export const uploadIcon = async (icon: File, token: string) => {
   const option = {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${testToken}`,
+      Authorization: `Bearer ${token}`,
     },
     body: formData,
   };

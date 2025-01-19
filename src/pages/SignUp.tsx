@@ -2,14 +2,19 @@ import React, { useState, useRef } from "react";
 import { useForm, SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { User } from "../type/type";
 import { signUp, uploadIcon } from "../api/api";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useCookies } from "react-cookie";
 
 const SignUp = () => {
+  const auth = useSelector((state: { auth: boolean }) => state.auth);
+  const dispatch = useDispatch();
+  const [, setCookies] = useCookies();
   const [isSignup, setIsSignup] = useState<boolean>(false);
   const [userErrorMessage, setUserErrorMessage] = useState<string>("");
   const [iconErrorMessage, setIconErrorMessage] = useState<string>("");
   const [iconUrl, setIconUrl] = useState<string>("");
-  const [token, setToken] = useState<string>("");
+
   const iconRef = useRef<HTMLInputElement>(null);
   const isVaild: SubmitHandler<User> = async (data: User) => {
     const newUser = {
@@ -21,7 +26,8 @@ const SignUp = () => {
     const resultUser = await responseUser.json();
     if (responseUser.ok) {
       setIsSignup(true);
-      setToken(resultUser.token);
+      setCookies("token", resultUser.token);
+      dispatch(signIn());
     } else {
       setUserErrorMessage(`${responseUser.status} 認証に失敗しました`);
     }
@@ -30,7 +36,7 @@ const SignUp = () => {
       setIconErrorMessage("アイコン画像が必要です");
       return;
     }
-    const responseIcon = await uploadIcon(icon!, token);
+    const responseIcon = await uploadIcon(icon!, resultUser.token);
     const resultIcon = await responseIcon.json();
     if (responseIcon.ok) {
       setIconUrl(resultIcon.url);
@@ -49,6 +55,10 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<User>();
+
+  if (auth) {
+    return <Navigate to="/" />;
+  }
   return (
     <React.Fragment>
       {isSignup ? (
@@ -87,7 +97,7 @@ const SignUp = () => {
         {errors.password && <p>{errors.password.message}</p>}
         <label htmlFor="icon">アイコン</label>
         <input id="icon" type="file" ref={iconRef} />
-
+        {iconErrorMessage ? <p>{iconErrorMessage}</p> : null}
         <button type="submit">新規登録</button>
       </form>
       <Link to="/logIn">ログインはこちら</Link>

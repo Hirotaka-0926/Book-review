@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useForm, SubmitErrorHandler, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { Link, Navigate } from "react-router-dom";
 import { logIn } from "../api/api";
+import { useSelector, useDispatch } from "react-redux";
+import { Cookies } from "react-cookie";
+import { signIn } from "../slice";
 
 interface LoginData {
   email: string;
@@ -11,14 +15,18 @@ interface LoginData {
 const LogIn = () => {
   const [isLogIn, setIsLogIn] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [token, setToken] = useState<string>("");
+  const auth = useSelector((state: { auth: boolean }) => state.auth);
+  const [cookies, setToken] = useCookies();
+  const dispatch = useDispatch();
 
   const isVaild: SubmitHandler<LoginData> = async (data: LoginData) => {
     const response = await logIn(data.email, data.password);
     const result = await response.json();
     if (response.ok) {
       setIsLogIn(true);
-      setToken(result.token);
+      setToken("token", result.token);
+      dispatch(signIn());
+      console.log(auth);
     } else {
       setErrorMessage(`${response.status} 認証に失敗しました`);
     }
@@ -32,6 +40,10 @@ const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginData>();
+
+  if (auth) {
+    return <Navigate to="/" />;
+  }
   return (
     <React.Fragment>
       {isLogIn ? (
