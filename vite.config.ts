@@ -5,4 +5,7 @@ import env from "vite-plugin-env-compatible";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), env({ prefix: "VITE", mountedPath: "process.env" })],
+  css: {
+    postcss: "./postcss.config.cjs",
+  },
 });

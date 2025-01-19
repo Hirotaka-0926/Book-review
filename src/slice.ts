@@ -11,10 +11,10 @@ export const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    signIn: (state: { isSignIn: boolean }) => {
+    signIn: (state) => {
       state.isSignIn = true;
     },
-    signOut: (state: { isSignIn: boolean }) => {
+    signOut: (state) => {
       state.isSignIn = false;
     },
   },

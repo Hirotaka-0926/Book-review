@@ -1,24 +1,28 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import { useSelector } from "react-redux";
+import HeaderLayout from "../HeaderLayout";
+import Home from "../pages/Home";
 
 const Router = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(
+    (state: { auth: { isSignIn: boolean } }) => state.auth.isSignIn
+  );
+  console.log(auth);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        {auth ? (
-          <>
-            <Route path="/" element={<h1>hello</h1>} />
-          </>
-        ) : (
-          <Route path="*" element={<Navigate to="/login" />} />
-        )}
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<LogIn />} />
+      <Route path="/signup" element={<SignUp />} />
+
+      {auth ? (
+        <>
+          <Route path="/" element={<Home />} />
+        </>
+      ) : (
+        <Route path="*" element={<Navigate to="/login" />} />
+      )}
+    </Routes>
   );
 };
 

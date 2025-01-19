@@ -6,6 +6,7 @@ import { logIn } from "../api/api";
 import { useSelector, useDispatch } from "react-redux";
 import { Cookies } from "react-cookie";
 import { signIn } from "../slice";
+import Header from "../Header";
 
 interface LoginData {
   email: string;
@@ -15,7 +16,9 @@ interface LoginData {
 const LogIn = () => {
   const [isLogIn, setIsLogIn] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const auth = useSelector((state: { auth: boolean }) => state.auth);
+  const auth = useSelector(
+    (state: { auth: { isSignIn: boolean } }) => state.auth.isSignIn
+  );
   const [cookies, setToken] = useCookies();
   const dispatch = useDispatch();
 
@@ -46,6 +49,7 @@ const LogIn = () => {
   }
   return (
     <React.Fragment>
+      <Header />
       {isLogIn ? (
         <div>
           <h1>認証成功</h1>
@@ -54,29 +58,40 @@ const LogIn = () => {
         <div></div>
       )}
       <p>{errorMessage}</p>
-      <form onSubmit={handleSubmit(isVaild, isInVaild)}>
-        <label htmlFor="email">メールアドレス</label>
-        <input
-          id="email"
-          type="email"
-          {...register("email", {
-            required: "メールアドレスを入力してください",
-          })}
-        />
-        {errors.email && <p>{errors.email.message}</p>}
-        <label htmlFor="password">パスワード</label>
-        <input
-          id="password"
-          type="password"
-          {...register("password", {
-            required: "パスワードを入力してください",
-          })}
-        />
-        {errors.password && <p>{errors.password.message}</p>}
-        <button type="submit">ログイン</button>
-      </form>
-
-      <Link to="/signup">新規登録</Link>
+      <div className="max-w-lg mx-auto p-4 bg-white border rounded-md shadow-md m-4">
+        <form onSubmit={handleSubmit(isVaild, isInVaild)}>
+          <label htmlFor="email">メールアドレス</label>
+          <input
+            id="email"
+            type="email"
+            className="border border-gray-500 m-4"
+            {...register("email", {
+              required: "メールアドレスを入力してください",
+            })}
+          />
+          {errors.email && <p>{errors.email.message}</p>}
+          <br />
+          <label htmlFor="password">パスワード</label>
+          <input
+            id="password"
+            type="password"
+            className="border border-gray-500 m-4"
+            {...register("password", {
+              required: "パスワードを入力してください",
+            })}
+          />
+          {errors.password && <p>{errors.password.message}</p>}
+          <br />
+          <button className="bg-slate-600 w-full text-white p-2 " type="submit">
+            ログイン
+          </button>
+        </form>
+        <div className="text-center mt-4">
+          <Link className="text-blue-600 hover:underline w-full" to="/signup">
+            新規登録
+          </Link>
+        </div>
+      </div>
     </React.Fragment>
   );
 };

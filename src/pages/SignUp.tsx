@@ -5,9 +5,12 @@ import { signUp, uploadIcon } from "../api/api";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
+import Header from "../Header";
 
 const SignUp = () => {
-  const auth = useSelector((state: { auth: boolean }) => state.auth);
+  const auth = useSelector(
+    (state: { auth: { isSignIn: boolean } }) => state.auth.isSignIn
+  );
   const dispatch = useDispatch();
   const [, setCookies] = useCookies();
   const [isSignup, setIsSignup] = useState<boolean>(false);
@@ -61,6 +64,7 @@ const SignUp = () => {
   }
   return (
     <React.Fragment>
+      <Header />
       {isSignup ? (
         <div>
           <h1>認証成功</h1>
