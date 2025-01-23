@@ -78,3 +78,14 @@ export const putNewBook = async (data: Book, token: string) => {
 
   return response;
 };
+
+export const getBook = async (token: string, id: string) => {
+  const option = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    id: id,
+  };
+  const response = await fetch(`${baseUrl}/books/${id}`, option);
+  return response;
+};

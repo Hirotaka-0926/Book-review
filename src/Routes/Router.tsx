@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Profile from "../pages/Profile";
 import Home from "../pages/Home";
 import NewBook from "../pages/NewBook";
-import EditBook from "../pages/EditBook"
+import EditBook from "../pages/EditBook";
 
 const Router = () => {
   const auth = useSelector(
@@ -22,7 +22,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/new" element={<NewBook />} />
-          <Route path = "/edit" element={<EditBook/>}
+          <Route path="/detail/:id" element={<EditBook />} />
         </>
       ) : (
         <Route path="*" element={<Navigate to="/login" />} />

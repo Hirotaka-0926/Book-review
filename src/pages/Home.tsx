@@ -35,17 +35,18 @@ const Home = () => {
           新規作成
         </button>
         <BookOffset counter={count} setCount={setCount} />
-        <Link to="/edit">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {books.map((book) => (
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {books.map((book) => (
+            <Link to={`/detail/${book.id}`}>
               <div key={book.id} className="bg-white p-4 rounded-md shadow-md">
                 <h1>{book.title}</h1>
                 <p>{book.url}</p>
                 <p>{book.detail}</p>
               </div>
-            ))}
-          </div>
-        </Link>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
