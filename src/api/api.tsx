@@ -1,6 +1,5 @@
 const baseUrl = process.env.VITE_API_URL;
-import { User } from "../type/type";
-import { Book } from "../type/type";
+import { User, Book } from "../type/type";
 
 export const signUp = async (data: User) => {
   const header = {
@@ -37,5 +36,45 @@ export const uploadIcon = async (icon: File, token: string) => {
 
 export const getBooks = async (count: number) => {
   const response = await fetch(`${baseUrl}/public/books?offset=${count}`);
+  return response;
+};
+
+export const getProfile = async (token: string) => {
+  const option = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await fetch(`${baseUrl}/users`, option);
+  return response;
+};
+
+export const updateProfile = async (name: string, token: string) => {
+  const option = {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name }),
+  };
+  const response = await fetch(`${baseUrl}/users`, option);
+  return response;
+};
+
+export const putNewBook = async (data: Book, token: string) => {
+  const option = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      title: data.title,
+      url: data.url,
+      detail: data.detail,
+      review: data.review,
+    }),
+  };
+  const response = await fetch(`${baseUrl}/books`, option);
+
   return response;
 };

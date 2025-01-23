@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useForm, SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { User } from "../type/type";
-import { signUp, uploadIcon } from "../api/api";
+import { uploadIcon, signUp } from "../api/api";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
 import Header from "../Header";
+import { signIn } from "../slice";
 
 const SignUp = () => {
   const auth = useSelector(
@@ -63,7 +64,7 @@ const SignUp = () => {
     return <Navigate to="/" />;
   }
   return (
-    <React.Fragment>
+    <div className="min-h-screen bg-gray-100">
       <Header />
       {isSignup ? (
         <div>
@@ -73,39 +74,83 @@ const SignUp = () => {
         <div></div>
       )}
       <p>{userErrorMessage}</p>
-      <form onSubmit={handleSubmit(isVaild, isInVaild)}>
-        <label htmlFor="name">名前</label>
-        <input
-          id="name"
-          type="text"
-          {...register("name", { required: "名前を入力してください" })}
-        />
-        {errors.name && <p>{errors.name.message}</p>}
-        <label htmlFor="email">メールアドレス</label>
-        <input
-          id="email"
-          type="email"
-          {...register("email", {
-            required: "メールアドレスを入力してください",
-          })}
-        />
-        {errors.email && <p>{errors.email.message}</p>}
-        <label htmlFor="password">パスワード</label>
-        <input
-          id="password"
-          type="password"
-          {...register("password", {
-            required: "パスワードを入力してください",
-          })}
-        />
-        {errors.password && <p>{errors.password.message}</p>}
-        <label htmlFor="icon">アイコン</label>
-        <input id="icon" type="file" ref={iconRef} />
-        {iconErrorMessage ? <p>{iconErrorMessage}</p> : null}
-        <button type="submit">新規登録</button>
-      </form>
-      <Link to="/logIn">ログインはこちら</Link>
-    </React.Fragment>
+      <div className="container mx-auto p-4 ">
+        <form
+          onSubmit={handleSubmit(isVaild, isInVaild)}
+          className="shadow-md bg-white rounded-md m-4"
+        >
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
+            名前
+          </label>
+          <input
+            id="name"
+            type="text"
+            className="border border-gray-300 p-2 w-full rounded-md"
+            {...register("name", { required: "名前を入力してください" })}
+          />
+          {errors.name && <p>{errors.name.message}</p>}
+          <br />
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            メールアドレス
+          </label>
+          <input
+            id="email"
+            type="email"
+            className="border border-gray-300 p-2 w-full rounded-md"
+            {...register("email", {
+              required: "メールアドレスを入力してください",
+            })}
+          />
+          {errors.email && <p>{errors.email.message}</p>}
+          <br />
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
+            パスワード
+          </label>
+          <input
+            id="password"
+            type="password"
+            className="border border-gray-300 p-2 w-full rounded-md"
+            {...register("password", {
+              required: "パスワードを入力してください",
+            })}
+          />
+          {errors.password && <p>{errors.password.message}</p>}
+          <br />
+          <label
+            htmlFor="icon"
+            className="block text-sm font-medium text-gray-700"
+          >
+            アイコン
+          </label>
+          <input
+            id="icon"
+            type="file"
+            ref={iconRef}
+            className="border border-gray-300 p-2 w-full rounded-md"
+          />
+          {iconErrorMessage ? <p>{iconErrorMessage}</p> : null}
+          <br />
+          <button
+            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-300"
+            type="submit"
+          >
+            新規登録
+          </button>
+        </form>
+      </div>
+      <Link className="text-blue-500 hover:underline" to="/logIn">
+        ログインはこちら
+      </Link>
+    </div>
   );
 };
 export default SignUp;
