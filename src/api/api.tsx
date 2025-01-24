@@ -34,8 +34,13 @@ export const uploadIcon = async (icon: File, token: string) => {
   return response;
 };
 
-export const getBooks = async (count: number) => {
-  const response = await fetch(`${baseUrl}/public/books?offset=${count}`);
+export const getBooks = async (count: number, token: string) => {
+  const option = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await fetch(`${baseUrl}/books?offset=${count}`, option);
   return response;
 };
 

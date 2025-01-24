@@ -11,4 +11,5 @@ export interface Book {
   detail: string;
   review: string;
   reviewer?: string;
+  isMine?: boolean;
 }

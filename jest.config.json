@@ -1,10 +1,7 @@
 {
   "preset": "ts-jest",
   "roots": ["<rootDir>/tests/jest"],
-  "testMatch": [
-    "**/jest/**/*.+(ts|tsx|js)",
-    "**/?(*.)+(spec|test).+(ts|tsx|js)"
-  ],
+  "testMatch": ["**/jest/**/*.+(tsx|js)", "**/?(*.)+(spec|test).+(ts|tsx|js)"],
   "transform": {
     "^.+\\.(ts|tsx)$": [
       "ts-jest",
@@ -13,5 +10,6 @@
       }
     ]
   },
-  "testEnvironment": "jsdom"
+  "testEnvironment": "jsdom",
+  "setupFiles": ["<rootDir>/tests/jest/setupTests.ts"]
 }

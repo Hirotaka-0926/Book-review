@@ -60,7 +60,7 @@ const LogIn = () => {
       <p>{errorMessage}</p>
       <div className="max-w-lg mx-auto p-4 bg-white border rounded-md shadow-md m-4">
         <form onSubmit={handleSubmit(isVaild, isInVaild)}>
-          <label htmlFor="email">メールアドレス</label>
+          <label htmlFor="email">email</label>
           <input
             id="email"
             type="email"
@@ -71,7 +71,7 @@ const LogIn = () => {
           />
           {errors.email && <p>{errors.email.message}</p>}
           <br />
-          <label htmlFor="password">パスワード</label>
+          <label htmlFor="password">password</label>
           <input
             id="password"
             type="password"
@@ -82,8 +82,12 @@ const LogIn = () => {
           />
           {errors.password && <p>{errors.password.message}</p>}
           <br />
-          <button className="bg-slate-600 w-full text-white p-2 " type="submit">
-            ログイン
+          <button
+            className="bg-slate-600 w-full text-white p-2 "
+            type="submit"
+            role="login"
+          >
+            button
           </button>
         </form>
         <div className="text-center mt-4">

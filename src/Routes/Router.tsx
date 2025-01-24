@@ -6,6 +6,7 @@ import Profile from "../pages/Profile";
 import Home from "../pages/Home";
 import NewBook from "../pages/NewBook";
 import EditBook from "../pages/EditBook";
+import Detail from "../pages/Detail";
 
 const Router = () => {
   const auth = useSelector(
@@ -22,7 +23,8 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/new" element={<NewBook />} />
-          <Route path="/detail/:id" element={<EditBook />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/edit/:id" element={<EditBook />} />
         </>
       ) : (
         <Route path="*" element={<Navigate to="/login" />} />

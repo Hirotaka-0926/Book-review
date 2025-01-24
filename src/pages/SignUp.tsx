@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useForm, SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { User } from "../type/type";
 import { uploadIcon, signUp } from "../api/api";
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
 import Header from "../Header";
 import { signIn } from "../slice";
+import Compressor from "compressorjs";
 
 const SignUp = () => {
   const auth = useSelector(
@@ -17,7 +18,7 @@ const SignUp = () => {
   const [isSignup, setIsSignup] = useState<boolean>(false);
   const [userErrorMessage, setUserErrorMessage] = useState<string>("");
   const [iconErrorMessage, setIconErrorMessage] = useState<string>("");
-  const [iconUrl, setIconUrl] = useState<string>("");
+  const [, setIconUrl] = useState<string>("");
 
   const iconRef = useRef<HTMLInputElement>(null);
   const isVaild: SubmitHandler<User> = async (data: User) => {
@@ -40,15 +41,20 @@ const SignUp = () => {
       setIconErrorMessage("アイコン画像が必要です");
       return;
     }
-    const responseIcon = await uploadIcon(icon!, resultUser.token);
-    const resultIcon = await responseIcon.json();
-    if (responseIcon.ok) {
-      setIconUrl(resultIcon.url);
-    } else {
-      setIconErrorMessage(
-        `${responseIcon.status} アイコンのアップロードに失敗しました`
-      );
-    }
+    new Compressor(icon, {
+      quality: 0.6,
+      async success(result: File) {
+        const responseIcon = await uploadIcon(result!, resultUser.token);
+        const resultIcon = await responseIcon.json();
+        if (responseIcon.ok) {
+          setIconUrl(resultIcon.url);
+        } else {
+          setIconErrorMessage(
+            `${responseIcon.status} アイコンのアップロードに失敗しました`
+          );
+        }
+      },
+    });
   };
 
   const isInVaild: SubmitErrorHandler<User> = (error) => {

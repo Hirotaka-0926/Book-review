@@ -4,7 +4,7 @@ import { getBook } from "../api/api";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-const EditBook = () => {
+const Detail = () => {
   const [title, setTitle] = useState<string>("");
   const [detail, setDetail] = useState<string>("");
   const [review, setReview] = useState<string>("");
@@ -17,7 +17,6 @@ const EditBook = () => {
 
   const sendEditBook = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(e);
   };
 
   useEffect(() => {
@@ -59,6 +58,7 @@ const EditBook = () => {
               className="border border-gray-300 p-2 w-full rounded-md"
               onChange={(e) => setTitle(e.target.value)}
               value={title}
+              readOnly
             />
           </div>
           <div className="mb-4">
@@ -75,6 +75,7 @@ const EditBook = () => {
               className="border border-gray-300 p-2 w-full rounded-md"
               onChange={(e) => setUrl(e.target.value)}
               value={url}
+              readOnly
             />
           </div>
           <div className="mb-4">
@@ -90,6 +91,7 @@ const EditBook = () => {
               className="border border-gray-300 p-2 w-full rounded-md"
               onChange={(e) => setDetail(e.target.value)}
               value={detail}
+              readOnly
             />
           </div>
           <div className="mb-4">
@@ -105,19 +107,14 @@ const EditBook = () => {
               className="border border-gray-300 p-2 w-full rounded-md"
               onChange={(e) => setReview(e.target.value)}
               value={review}
+              readOnly
             />
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-300"
-          >
-            追加
-          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default EditBook;
+export default Detail;
