@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header";
-import { getBook } from "../api/api";
-import { useParams } from "react-router-dom";
+import { getBook, putBook } from "../api/api";
+import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const EditBook = () => {
@@ -10,14 +10,28 @@ const EditBook = () => {
   const [review, setReview] = useState<string>("");
   const [url, setUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
   const [cookies] = useCookies();
   const token = cookies.token;
   const router = useParams();
   const id = router.id;
 
-  const sendEditBook = (e: React.FormEvent) => {
+  const sendEditBook = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(e);
+    const data = {
+      title: title,
+      detail: detail,
+      review: review,
+      url: url,
+    };
+    const response = await putBook(data, token, id!);
+    const result = await response.json();
+    if (response.ok) {
+      console.log("成功");
+      navigate("/");
+    } else {
+      setError(response.status + " 送信に失敗しました" + result.ErrorMessageJP);
+    }
   };
 
   useEffect(() => {

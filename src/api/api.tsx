@@ -94,3 +94,16 @@ export const getBook = async (token: string, id: string) => {
   const response = await fetch(`${baseUrl}/books/${id}`, option);
   return response;
 };
+
+export const putBook = async (data: Book, token: string, id: string) => {
+  const option = {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  };
+
+  const response = fetch(`${baseUrl}/books/${id}`, option);
+  return response;
+};

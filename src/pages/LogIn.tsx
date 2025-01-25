@@ -87,7 +87,7 @@ const LogIn = () => {
             type="submit"
             role="login"
           >
-            button
+            LogIn
           </button>
         </form>
         <div className="text-center mt-4">
