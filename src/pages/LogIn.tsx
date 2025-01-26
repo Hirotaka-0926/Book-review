@@ -22,7 +22,7 @@ const LogIn = () => {
   const [, setToken] = useCookies();
   const dispatch = useDispatch();
 
-  const isVaild: SubmitHandler<LoginData> = async (data: LoginData) => {
+  const pushLogIn: SubmitHandler<LoginData> = async (data: LoginData) => {
     const response = await logIn(data.email, data.password);
     const result = await response.json();
     if (response.ok) {
@@ -59,7 +59,7 @@ const LogIn = () => {
       )}
       <p>{errorMessage}</p>
       <div className="max-w-lg mx-auto p-4 bg-white border rounded-md shadow-md m-4">
-        <form onSubmit={handleSubmit(isVaild, isInVaild)}>
+        <form onSubmit={handleSubmit(pushLogIn, isInVaild)}>
           <label htmlFor="email">email</label>
           <input
             id="email"

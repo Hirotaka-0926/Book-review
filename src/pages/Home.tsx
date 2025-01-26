@@ -5,10 +5,15 @@ import BookOffset from "./BookOffset";
 import { getBooks } from "../api/api";
 import { useNavigate, Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [count, setCount] = useState<number>(0);
+
+  const auth = useSelector(
+    (state: { auth: { isSignIn: boolean } }) => state.auth.isSignIn
+  );
   const navigate = useNavigate();
   const [cookies] = useCookies();
   const token = cookies.token;
@@ -18,11 +23,12 @@ const Home = () => {
   };
   useEffect(() => {
     const fetchBooks = async () => {
-      const response = await getBooks(count, token);
+      const response = await getBooks(count, token, auth);
       const data = await response.json();
       console.log(response);
       setBooks(data);
     };
+
     fetchBooks();
   }, [count, token]);
 

@@ -21,7 +21,7 @@ const SignUp = () => {
   const [, setIconUrl] = useState<string>("");
 
   const iconRef = useRef<HTMLInputElement>(null);
-  const isVaild: SubmitHandler<User> = async (data: User) => {
+  const pushSignUp: SubmitHandler<User> = async (data: User) => {
     const newUser = {
       name: data.name,
       email: data.email,
@@ -34,7 +34,9 @@ const SignUp = () => {
       setCookies("token", resultUser.token);
       dispatch(signIn());
     } else {
-      setUserErrorMessage(`${responseUser.status} 認証に失敗しました`);
+      setUserErrorMessage(
+        `${responseUser.status} 認証に失敗しました  ${resultUser.ErrorMessageJP}`
+      );
     }
     const icon = iconRef.current?.files?.[0];
     if (!icon) {
@@ -82,7 +84,7 @@ const SignUp = () => {
       <p>{userErrorMessage}</p>
       <div className="container mx-auto p-4 ">
         <form
-          onSubmit={handleSubmit(isVaild, isInVaild)}
+          onSubmit={handleSubmit(pushSignUp, isInVaild)}
           className="shadow-md bg-white rounded-md m-4"
         >
           <label

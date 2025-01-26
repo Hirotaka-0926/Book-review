@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LogIn from "../pages/LogIn";
 import SignUp from "../pages/SignUp";
 import { useSelector } from "react-redux";
@@ -17,18 +17,12 @@ const Router = () => {
     <Routes>
       <Route path="/login" element={<LogIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/" element={<Home />} />
 
-      {auth ? (
-        <>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/new" element={<NewBook />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/edit/:id" element={<EditBook />} />
-        </>
-      ) : (
-        <Route path="*" element={<Navigate to="/login" />} />
-      )}
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/new" element={<NewBook />} />
+      <Route path="/detail/:id" element={<Detail />} />
+      <Route path="/edit/:id" element={<EditBook />} />
     </Routes>
   );
 };

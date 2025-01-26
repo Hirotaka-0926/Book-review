@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 test("test", async ({ page }) => {
   await page.goto("http://localhost:5173/login");
@@ -7,6 +7,7 @@ test("test", async ({ page }) => {
   await page.getByLabel("password").click();
   await page.getByLabel("password").fill("aaa");
   await page.getByRole("button", { name: "LogIn" }).click();
+  await expect(page).toHaveURL("http://localhost:5173/");
 });
 
 test("正しくエラーを吐くか", async ({ page }) => {
@@ -16,5 +17,5 @@ test("正しくエラーを吐くか", async ({ page }) => {
   await page.getByLabel("password").click();
   await page.getByLabel("password").fill("aaaa");
   await page.getByRole("button", { name: "LogIn" }).click();
-  await page.getByText("認証に失敗しました").click();
+  await expect(page.getByText("認証に失敗しました")).toBeVisible();
 });
